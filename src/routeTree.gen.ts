@@ -16,6 +16,10 @@ import { Route as AuthenticatedMyAttendanceRouteImport } from './routes/_authent
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedClassesRouteImport } from './routes/_authenticated/classes'
 import { Route as AuthenticatedAttendanceClassIdRouteImport } from './routes/_authenticated/attendance.$classId'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin/users'
+import { Route as AuthenticatedAdminSubjectsRouteImport } from './routes/_authenticated/admin/subjects'
+import { Route as AuthenticatedAdminDepartmentsRouteImport } from './routes/_authenticated/admin/departments'
+import { Route as AuthenticatedAdminClassesRouteImport } from './routes/_authenticated/admin/classes'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -53,6 +57,29 @@ const AuthenticatedAttendanceClassIdRoute =
     path: '/attendance/$classId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminSubjectsRoute =
+  AuthenticatedAdminSubjectsRouteImport.update({
+    id: '/admin/subjects',
+    path: '/admin/subjects',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminDepartmentsRoute =
+  AuthenticatedAdminDepartmentsRouteImport.update({
+    id: '/admin/departments',
+    path: '/admin/departments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminClassesRoute =
+  AuthenticatedAdminClassesRouteImport.update({
+    id: '/admin/classes',
+    path: '/admin/classes',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +87,10 @@ export interface FileRoutesByFullPath {
   '/classes': typeof AuthenticatedClassesRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/my-attendance': typeof AuthenticatedMyAttendanceRoute
+  '/admin/classes': typeof AuthenticatedAdminClassesRoute
+  '/admin/departments': typeof AuthenticatedAdminDepartmentsRoute
+  '/admin/subjects': typeof AuthenticatedAdminSubjectsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/attendance/$classId': typeof AuthenticatedAttendanceClassIdRoute
 }
 export interface FileRoutesByTo {
@@ -68,6 +99,10 @@ export interface FileRoutesByTo {
   '/classes': typeof AuthenticatedClassesRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/my-attendance': typeof AuthenticatedMyAttendanceRoute
+  '/admin/classes': typeof AuthenticatedAdminClassesRoute
+  '/admin/departments': typeof AuthenticatedAdminDepartmentsRoute
+  '/admin/subjects': typeof AuthenticatedAdminSubjectsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/attendance/$classId': typeof AuthenticatedAttendanceClassIdRoute
 }
 export interface FileRoutesById {
@@ -78,6 +113,10 @@ export interface FileRoutesById {
   '/_authenticated/classes': typeof AuthenticatedClassesRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/my-attendance': typeof AuthenticatedMyAttendanceRoute
+  '/_authenticated/admin/classes': typeof AuthenticatedAdminClassesRoute
+  '/_authenticated/admin/departments': typeof AuthenticatedAdminDepartmentsRoute
+  '/_authenticated/admin/subjects': typeof AuthenticatedAdminSubjectsRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/attendance/$classId': typeof AuthenticatedAttendanceClassIdRoute
 }
 export interface FileRouteTypes {
@@ -88,6 +127,10 @@ export interface FileRouteTypes {
     | '/classes'
     | '/dashboard'
     | '/my-attendance'
+    | '/admin/classes'
+    | '/admin/departments'
+    | '/admin/subjects'
+    | '/admin/users'
     | '/attendance/$classId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -96,6 +139,10 @@ export interface FileRouteTypes {
     | '/classes'
     | '/dashboard'
     | '/my-attendance'
+    | '/admin/classes'
+    | '/admin/departments'
+    | '/admin/subjects'
+    | '/admin/users'
     | '/attendance/$classId'
   id:
     | '__root__'
@@ -105,6 +152,10 @@ export interface FileRouteTypes {
     | '/_authenticated/classes'
     | '/_authenticated/dashboard'
     | '/_authenticated/my-attendance'
+    | '/_authenticated/admin/classes'
+    | '/_authenticated/admin/departments'
+    | '/_authenticated/admin/subjects'
+    | '/_authenticated/admin/users'
     | '/_authenticated/attendance/$classId'
   fileRoutesById: FileRoutesById
 }
@@ -165,6 +216,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAttendanceClassIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/subjects': {
+      id: '/_authenticated/admin/subjects'
+      path: '/admin/subjects'
+      fullPath: '/admin/subjects'
+      preLoaderRoute: typeof AuthenticatedAdminSubjectsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/departments': {
+      id: '/_authenticated/admin/departments'
+      path: '/admin/departments'
+      fullPath: '/admin/departments'
+      preLoaderRoute: typeof AuthenticatedAdminDepartmentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/classes': {
+      id: '/_authenticated/admin/classes'
+      path: '/admin/classes'
+      fullPath: '/admin/classes'
+      preLoaderRoute: typeof AuthenticatedAdminClassesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -172,6 +251,10 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedClassesRoute: typeof AuthenticatedClassesRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedMyAttendanceRoute: typeof AuthenticatedMyAttendanceRoute
+  AuthenticatedAdminClassesRoute: typeof AuthenticatedAdminClassesRoute
+  AuthenticatedAdminDepartmentsRoute: typeof AuthenticatedAdminDepartmentsRoute
+  AuthenticatedAdminSubjectsRoute: typeof AuthenticatedAdminSubjectsRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAttendanceClassIdRoute: typeof AuthenticatedAttendanceClassIdRoute
 }
 
@@ -179,6 +262,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedClassesRoute: AuthenticatedClassesRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedMyAttendanceRoute: AuthenticatedMyAttendanceRoute,
+  AuthenticatedAdminClassesRoute: AuthenticatedAdminClassesRoute,
+  AuthenticatedAdminDepartmentsRoute: AuthenticatedAdminDepartmentsRoute,
+  AuthenticatedAdminSubjectsRoute: AuthenticatedAdminSubjectsRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAttendanceClassIdRoute: AuthenticatedAttendanceClassIdRoute,
 }
 
