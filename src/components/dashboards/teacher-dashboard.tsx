@@ -1,13 +1,34 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { StatCard } from "./stat-card";
-import { ClipboardList, Users, CalendarCheck, AlertTriangle } from "lucide-react";
+import { ClipboardList, Users, CalendarCheck, AlertTriangle, Sparkles, Loader2 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { useServerFn } from "@tanstack/react-start";
+import { seedTeacherDemo } from "@/lib/seed-demo.functions";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export function TeacherDashboard() {
   const { data: me } = useCurrentUser();
+  const qc = useQueryClient();
+  const seedFn = useServerFn(seedTeacherDemo);
+  const [seeding, setSeeding] = useState(false);
+
+  const handleSeed = async () => {
+    setSeeding(true);
+    try {
+      const res = await seedFn();
+      toast.success(`Demo loaded — ${res.studentsAdded} students enrolled`);
+      qc.invalidateQueries();
+    } catch (e: any) {
+      toast.error(e?.message ?? "Failed to seed demo data");
+    } finally {
+      setSeeding(false);
+    }
+  };
+
   const { data } = useQuery({
     queryKey: ["teacher-stats", me?.user.id],
     enabled: !!me?.user.id,
@@ -30,7 +51,13 @@ export function TeacherDashboard() {
 
   return (
     <div className="space-y-6">
-      <div><h1 className="text-3xl font-bold">Welcome, {me?.profile?.full_name?.split(" ")[0] ?? "Teacher"}</h1></div>
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <h1 className="text-3xl font-bold">Welcome, {me?.profile?.full_name?.split(" ")[0] ?? "Teacher"}</h1>
+        <Button onClick={handleSeed} disabled={seeding} variant="outline" className="gap-2">
+          {seeding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+          Load demo data
+        </Button>
+      </div>
       <div className="grid gap-4 md:grid-cols-4">
         <StatCard icon={ClipboardList} label="My classes" value={data?.classes.length ?? 0} />
         <StatCard icon={Users} label="Students enrolled" value={data?.studentCount ?? 0} />
