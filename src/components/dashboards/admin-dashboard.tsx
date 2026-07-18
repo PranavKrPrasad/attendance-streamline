@@ -41,11 +41,33 @@ export function AdminDashboard() {
     },
   });
 
+  const qc = useQueryClient();
+  const seedFn = useServerFn(seedTeacherDemo);
+  const [seeding, setSeeding] = useState(false);
+  const handleSeed = async () => {
+    setSeeding(true);
+    try {
+      const res = await seedFn();
+      toast.success(`Demo loaded — ${res.studentsAdded} students enrolled`);
+      qc.invalidateQueries();
+    } catch (e: any) {
+      toast.error(e?.message ?? "Failed to seed demo data");
+    } finally {
+      setSeeding(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Admin overview</h1>
-        <p className="text-sm text-muted-foreground">System-wide attendance and enrollment stats.</p>
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h1 className="text-3xl font-bold">Admin overview</h1>
+          <p className="text-sm text-muted-foreground">System-wide attendance and enrollment stats.</p>
+        </div>
+        <Button onClick={handleSeed} disabled={seeding} variant="outline" className="gap-2">
+          {seeding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+          Load demo data
+        </Button>
       </div>
       <div className="grid gap-4 md:grid-cols-4">
         <StatCard icon={Users} label="Students" value={data?.students ?? 0} />
