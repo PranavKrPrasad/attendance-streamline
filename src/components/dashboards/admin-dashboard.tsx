@@ -1,8 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StatCard } from "./stat-card";
-import { Users, GraduationCap, ClipboardList, AlertTriangle } from "lucide-react";
+import { Users, GraduationCap, ClipboardList, AlertTriangle, Sparkles, Loader2 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
+import { Button } from "@/components/ui/button";
+import { useServerFn } from "@tanstack/react-start";
+import { seedTeacherDemo } from "@/lib/seed-demo.functions";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export function AdminDashboard() {
   const { data } = useQuery({
