@@ -150,6 +150,7 @@ export const seedTeacherDemo = createServerFn({ method: "POST" })
         if (sErr) continue;
 
         const records = studentIds.map((sid) => {
+          type S = "present" | "late" | "absent";
           const r = Math.random();
           const status = r < 0.8 ? "present" : r < 0.9 ? "late" : "absent";
           return {
