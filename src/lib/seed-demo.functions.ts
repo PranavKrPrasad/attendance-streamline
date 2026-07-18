@@ -143,16 +143,17 @@ export const seedTeacherDemo = createServerFn({ method: "POST" })
             class_id: cls!.id,
             teacher_id: userId,
             session_date: dateStr,
-            status: "closed",
+            started_at: `${dateStr}T09:00:00Z`,
+            ended_at: `${dateStr}T10:00:00Z`,
           })
           .select("id")
           .single();
         if (sErr) continue;
 
+        type S = "present" | "late" | "absent";
         const records = studentIds.map((sid) => {
-          type S = "present" | "late" | "absent";
           const r = Math.random();
-          const status = r < 0.8 ? "present" : r < 0.9 ? "late" : "absent";
+          const status: S = r < 0.8 ? "present" : r < 0.9 ? "late" : "absent";
           return {
             session_id: sess!.id,
             class_id: cls!.id,
