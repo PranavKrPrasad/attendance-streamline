@@ -51,7 +51,13 @@ export function TeacherDashboard() {
 
   return (
     <div className="space-y-6">
-      <div><h1 className="text-3xl font-bold">Welcome, {me?.profile?.full_name?.split(" ")[0] ?? "Teacher"}</h1></div>
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <h1 className="text-3xl font-bold">Welcome, {me?.profile?.full_name?.split(" ")[0] ?? "Teacher"}</h1>
+        <Button onClick={handleSeed} disabled={seeding} variant="outline" className="gap-2">
+          {seeding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+          Load demo data
+        </Button>
+      </div>
       <div className="grid gap-4 md:grid-cols-4">
         <StatCard icon={ClipboardList} label="My classes" value={data?.classes.length ?? 0} />
         <StatCard icon={Users} label="Students enrolled" value={data?.studentCount ?? 0} />
